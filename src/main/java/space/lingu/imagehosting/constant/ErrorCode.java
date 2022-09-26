@@ -60,13 +60,17 @@ public enum ErrorCode {
      */
     ERROR_USERNAME_NON_COMPLIANCE("A0212"),
     /**
+     * 邮件名不合规
+     */
+    ERROR_EMAIL_NON_COMPLIANCE("A0213"),
+    /**
      * 登陆状态过期
      */
     ERROR_LOGIN_EXPIRED("A0311"),
     /**
      * 请求次数过多
      */
-    ERROR_REQUEST_OVERRUN("A0501", HttpStatus.TOO_MANY_REQUESTS),
+    ERROR_REQUEST_OVERRUN("A0501", HttpStatus.TOO_MANY_REQUESTS.value()),
     /**
      * 上传文件错误
      */
@@ -86,7 +90,7 @@ public enum ErrorCode {
     /**
      * 文件未找到
      */
-    ERROR_FILE_NOT_FOUND("A0704", HttpStatus.NOT_FOUND),
+    ERROR_FILE_NOT_FOUND("A0704", HttpStatus.NOT_FOUND.value()),
     /**
      * 文件相关错误
      */
@@ -134,32 +138,32 @@ public enum ErrorCode {
     /**
      * 数据不存在
      */
-    ERROR_DATA_NOT_EXIST("C0317", HttpStatus.NOT_FOUND),
+    ERROR_DATA_NOT_EXIST("C0317", HttpStatus.NOT_FOUND.value()),
 
     // 对应Exception
-    ERROR_ARRAY_OUT_BOUND("D0001", HttpStatus.INTERNAL_SERVER_ERROR),
-    ERROR_NULL("D0002", HttpStatus.INTERNAL_SERVER_ERROR),
-    ERROR_CLASS_CAST("D0003", HttpStatus.INTERNAL_SERVER_ERROR),
-    ERROR_ILLEGAL_ARGUMENT("D0004", HttpStatus.INTERNAL_SERVER_ERROR),
-    ERROR_ILLEGAL_STATE("D0005", HttpStatus.INTERNAL_SERVER_ERROR),
-    ERROR_PARSE("D0006", HttpStatus.INTERNAL_SERVER_ERROR),
-    ERROR_ILLEGAL_THREAD_STATE("D0007", HttpStatus.INTERNAL_SERVER_ERROR),
-    ERROR_ILLEGAL_ACCESS("D0008", HttpStatus.INTERNAL_SERVER_ERROR),
-    ERROR_ILLEGAL_FORMAT("D0009", HttpStatus.INTERNAL_SERVER_ERROR),
-    ERROR_IO("D0010", HttpStatus.INTERNAL_SERVER_ERROR),
+    ERROR_ARRAY_OUT_BOUND("D0001", HttpStatus.INTERNAL_SERVER_ERROR.value()),
+    ERROR_NULL("D0002", HttpStatus.INTERNAL_SERVER_ERROR.value()),
+    ERROR_CLASS_CAST("D0003", HttpStatus.INTERNAL_SERVER_ERROR.value()),
+    ERROR_ILLEGAL_ARGUMENT("D0004", HttpStatus.INTERNAL_SERVER_ERROR.value()),
+    ERROR_ILLEGAL_STATE("D0005", HttpStatus.INTERNAL_SERVER_ERROR.value()),
+    ERROR_PARSE("D0006", HttpStatus.INTERNAL_SERVER_ERROR.value()),
+    ERROR_ILLEGAL_THREAD_STATE("D0007", HttpStatus.INTERNAL_SERVER_ERROR.value()),
+    ERROR_ILLEGAL_ACCESS("D0008", HttpStatus.INTERNAL_SERVER_ERROR.value()),
+    ERROR_ILLEGAL_FORMAT("D0009", HttpStatus.INTERNAL_SERVER_ERROR.value()),
+    ERROR_IO("D0010", HttpStatus.INTERNAL_SERVER_ERROR.value()),
     /**
      * 其他未归类错误
      */
-    ERROR_EXCEPTION("D0000", HttpStatus.INTERNAL_SERVER_ERROR);
+    ERROR_EXCEPTION("D0000", 500);
 
     private final String value;
-    private final HttpStatus status;
+    private final int status;
 
     ErrorCode(String value) {
-        this(value, HttpStatus.OK);
+        this(value, 200);
     }
 
-    ErrorCode(String value, HttpStatus status) {
+    ErrorCode(String value, int status) {
         this.value = value;
         this.status = status;
     }
@@ -168,7 +172,7 @@ public enum ErrorCode {
         return value;
     }
 
-    public HttpStatus getStatus() {
+    public int getStatus() {
         return status;
     }
 
