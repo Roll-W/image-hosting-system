@@ -5,10 +5,10 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.3</version>
+        <version>2.7.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>space.lingu</groupId>
+    <groupId>space.lingu.image-hosting-system</groupId>
     <artifactId>image-hosting-system</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>image-hosting-system</name>
@@ -22,10 +22,71 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-security</artifactId>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.1-jre</version>
+        </dependency>
+
+        <!-- Code Generator Module -->
+        <dependency>
+            <groupId>space.lingu.light</groupId>
+            <artifactId>light-compiler</artifactId>
+            <version>0.3.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Runtime Core Module -->
+        <dependency>
+            <groupId>space.lingu.light</groupId>
+            <artifactId>light-core</artifactId>
+            <version>0.3.0-SNAPSHOT</version>
+        </dependency>
+
+         <dependency>
+            <groupId>space.lingu.light</groupId>
+            <artifactId>light-core-logging-slf4j</artifactId>
+            <version>0.3.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>space.lingu.fiesta</groupId>
+            <artifactId>fiesta-annotations</artifactId>
+            <version>0.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>space.lingu.fiesta</groupId>
+            <artifactId>fiesta-checker</artifactId>
+            <version>0.2.0</version>
         </dependency>
     </dependencies>
 
