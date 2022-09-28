@@ -1,102 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2022 Lingu.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.4</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
+
     <groupId>space.lingu.image-hosting-system</groupId>
     <artifactId>image-hosting-system</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>image-hosting-system</name>
     <description>image-hosting-system</description>
+
+    <modules>
+        <module>image-hosting-system-core</module>
+    </modules>
+
     <properties>
         <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <project.version>0.0.1</project.version>
     </properties>
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-security</artifactId>-->
-<!--        </dependency>-->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.12.0</version>
+            </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>1.15</version>
+            </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-        </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>31.1-jre</version>
+            </dependency>
 
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+            <!-- Code Generator Module -->
+            <dependency>
+                <groupId>space.lingu.light</groupId>
+                <artifactId>light-compiler</artifactId>
+                <version>0.3.0-SNAPSHOT</version>
+                <scope>provided</scope>
+            </dependency>
 
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.12.0</version>
-        </dependency>
+            <!-- Runtime Core Module -->
+            <dependency>
+                <groupId>space.lingu.light</groupId>
+                <artifactId>light-core</artifactId>
+                <version>0.3.0-SNAPSHOT</version>
+            </dependency>
 
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>31.1-jre</version>
-        </dependency>
+            <dependency>
+                <groupId>space.lingu.light</groupId>
+                <artifactId>light-core-logging-slf4j</artifactId>
+                <version>0.3.0-SNAPSHOT</version>
+            </dependency>
 
-        <!-- Code Generator Module -->
-        <dependency>
-            <groupId>space.lingu.light</groupId>
-            <artifactId>light-compiler</artifactId>
-            <version>0.3.0-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
+            <dependency>
+                <groupId>space.lingu.fiesta</groupId>
+                <artifactId>fiesta-annotations</artifactId>
+                <version>0.2.0</version>
+            </dependency>
 
-        <!-- Runtime Core Module -->
-        <dependency>
-            <groupId>space.lingu.light</groupId>
-            <artifactId>light-core</artifactId>
-            <version>0.3.0-SNAPSHOT</version>
-        </dependency>
+            <dependency>
+                <groupId>space.lingu.fiesta</groupId>
+                <artifactId>fiesta-checker</artifactId>
+                <version>0.2.0</version>
+                <scope>provided</scope>
+            </dependency>
 
-         <dependency>
-            <groupId>space.lingu.light</groupId>
-            <artifactId>light-core-logging-slf4j</artifactId>
-            <version>0.3.0-SNAPSHOT</version>
-        </dependency>
+            <dependency>
+                <groupId>space.lingu.i18n</groupId>
+                <artifactId>i18n-common</artifactId>
+                <version>0.1.0-SNAPSHOT</version>
+            </dependency>
 
-        <dependency>
-            <groupId>space.lingu.fiesta</groupId>
-            <artifactId>fiesta-annotations</artifactId>
-            <version>0.2.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>space.lingu.fiesta</groupId>
-            <artifactId>fiesta-checker</artifactId>
-            <version>0.2.0</version>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+            <dependency>
+                <groupId>space.lingu.i18n</groupId>
+                <artifactId>i18n-compiler</artifactId>
+                <version>0.1.0-SNAPSHOT</version>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>
