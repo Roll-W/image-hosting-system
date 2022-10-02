@@ -19,25 +19,28 @@ package space.lingu.imagehosting.data.entity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.List;
+
 /**
  * @author RollW
  */
 public enum Role {
     USER(new SimpleGrantedAuthority("USER")),
-    ADMIN(new SimpleGrantedAuthority("ADMIN")),
+    ADMIN(new SimpleGrantedAuthority("ADMIN"), new SimpleGrantedAuthority("USER")),
     GUEST(new SimpleGrantedAuthority("GUEST"));
 
-    private final SimpleGrantedAuthority authority;
+    private final List<GrantedAuthority> authority;
 
-    Role(SimpleGrantedAuthority authority) {
-        this.authority = authority;
+    Role(SimpleGrantedAuthority... authority) {
+        this.authority = List.of(authority);
     }
 
     public boolean hasPrivilege() {
         return this == ADMIN;
     }
 
-    public GrantedAuthority toAuthority() {
+    public List<GrantedAuthority> toAuthority() {
         return authority;
     }
+
 }

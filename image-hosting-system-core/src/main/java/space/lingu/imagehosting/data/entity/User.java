@@ -22,7 +22,6 @@ import space.lingu.imagehosting.data.dto.UserInfo;
 import space.lingu.light.*;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Objects;
 
 /**
@@ -39,18 +38,15 @@ public class User implements UserDetails {
     @DataColumn(name = "user_id")
     private long id;
 
-    @DataColumn(name = "user_name")
+    @DataColumn(name = "user_name", nullable = false)
     private String username;
 
     @DataColumn(name = "user_role", configuration =
     @LightConfiguration(key = LightConfiguration.KEY_VARCHAR_LENGTH, value = "20"))
     private Role role;
 
-    @DataColumn(name = "user_password")
+    @DataColumn(name = "user_password", nullable = false)
     private String password;
-
-    @DataColumn(name = "user_password_salt")
-    private String salt;
 
     @DataColumn(name = "user_register_time")
     private long registerTime;
@@ -71,11 +67,10 @@ public class User implements UserDetails {
         this.enabled = false;
     }
 
-    public User(String username, String password, String salt, Role role,
+    public User(String username, String password, Role role,
                 long registerTime, String email) {
         this.username = username;
         this.password = password;
-        this.salt = salt;
         this.role = role;
         this.registerTime = registerTime;
         this.email = email;
@@ -98,12 +93,12 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return accountExpired;
+        return !accountExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return locked;
+        return !locked;
     }
 
     @Override
@@ -138,7 +133,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(getRole().toAuthority());
+        return getRole().toAuthority();
     }
 
     @Override
@@ -182,15 +177,6 @@ public class User implements UserDetails {
         return this;
     }
 
-    public String getSalt() {
-        return salt;
-    }
-
-    public User setSalt(String salt) {
-        this.salt = salt;
-        return this;
-    }
-
     public boolean isLocked() {
         return locked;
     }
@@ -204,12 +190,22 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && registerTime == user.registerTime && enabled == user.enabled && locked == user.locked && accountExpired == user.accountExpired && Objects.equals(username, user.username) && role == user.role && Objects.equals(password, user.password) && Objects.equals(salt, user.salt) && Objects.equals(email, user.email);
+        return id == user.id &&
+                registerTime == user.registerTime &&
+                enabled == user.enabled &&
+                locked == user.locked &&
+                accountExpired == user.accountExpired &&
+                Objects.equals(username, user.username) &&
+                role == user.role &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, role, password, salt, registerTime, email, enabled, locked, accountExpired);
+        return Objects.hash(id, username, role, password,
+                registerTime, email, enabled, locked,
+                accountExpired);
     }
 
     @Override
@@ -219,7 +215,6 @@ public class User implements UserDetails {
                 ", username='" + username + '\'' +
                 ", role=" + role +
                 ", password='" + password + '\'' +
-                ", salt='" + salt + '\'' +
                 ", registerTime=" + registerTime +
                 ", email='" + email + '\'' +
                 ", enabled=" + enabled +

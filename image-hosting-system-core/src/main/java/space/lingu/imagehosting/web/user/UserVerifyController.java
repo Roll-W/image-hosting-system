@@ -16,9 +16,12 @@
 
 package space.lingu.imagehosting.web.user;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,12 +35,14 @@ import space.lingu.imagehosting.service.user.UserService;
  */
 @Controller
 @UserApi
+@Api("用户验证接口")
 public class UserVerifyController {
     private UserService userService;
 
     private final Logger logger =
             LoggerFactory.getLogger(UserVerifyController.class);
 
+    @ApiOperation("用户确认注册接口")
     @GetMapping(value = "/register/confirm/{token}")
     public HttpResponseEntity<UserInfo> confirmRegister(
             @PathVariable(value = "token") String token) {
@@ -48,8 +53,24 @@ public class UserVerifyController {
                 infoMessagePackage.toResponseBody());
     }
 
+    @GetMapping(value = "/register/resend/{id}")
+    public HttpResponseEntity<Void> resendRegisterToken(
+            @PathVariable(value = "id") long userId) {
+        MessagePackage<Void> tokenMessagePackage =
+                userService.resendToken(userId);
+        return HttpResponseEntity.create(
+                tokenMessagePackage.toResponseBody());
+    }
+
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
+
+    ApplicationEventPublisher eventPublisher;
+    @Autowired
+    public void setEventPublisher(ApplicationEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
+    }
+
 }

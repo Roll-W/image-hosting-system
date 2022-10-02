@@ -16,8 +16,24 @@
 
 package space.lingu.imagehosting.service.user;
 
+import space.lingu.imagehosting.data.entity.Role;
+
+import java.util.List;
+
 /**
+ * Admin
+ *
  * @author RollW
  */
-public interface UserManageService {
+public interface UserManageService extends UserSettingService {
+    void createUserDiscardEmail(String username, String password, String email, Role role);
+
+    void createUserDiscardEmail(String username, String password, String email);
+
+    void deleteUser(long userId);
+
+    void deleteUser(List<Long> userId);
+
+    void setRoleTo(long userId, Role role);
+
 }

@@ -17,6 +17,7 @@
 package space.lingu.imagehosting.data.database.dao;
 
 import space.lingu.imagehosting.data.entity.ImageStorage;
+import space.lingu.imagehosting.data.entity.UserUploadImageStorage;
 import space.lingu.light.*;
 
 import java.util.List;
@@ -44,7 +45,33 @@ public abstract class ImageStorageDao {
     @Delete
     public abstract void delete(List<ImageStorage> storages);
 
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void insertUserUploadImageStorage(UserUploadImageStorage... storages);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void insertUserUploadImageStorage(List<UserUploadImageStorage> storages);
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void updateUserUploadImageStorage(UserUploadImageStorage... storages);
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void updateUserUploadImageStorage(List<UserUploadImageStorage> storages);
+
+    @Delete
+    public abstract void deleteUserUploadImageStorage(UserUploadImageStorage... storages);
+
+    @Delete
+    public abstract void deleteUserUploadImageStorage(List<UserUploadImageStorage> storages);
+
+
+    @Transaction
     @Delete("DELETE image_store_table WHERE image_id = {id}")
     public abstract void deleteByImageId(String id);
 
+    @Query("SELECT * FROM image_store_table WHERE image_id = {id}")
+    public abstract ImageStorage getByImageId(String id);
+
+    @Query("SELECT * FROM user_upload_table WHERE user_id = {userId}")
+    public abstract List<UserUploadImageStorage> getUploadedByUserId(long userId);
 }

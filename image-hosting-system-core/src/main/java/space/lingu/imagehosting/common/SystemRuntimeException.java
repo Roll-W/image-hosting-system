@@ -24,16 +24,16 @@ public abstract class SystemRuntimeException extends RuntimeException {
     private final String message;
 
     public SystemRuntimeException(ErrorCode errorCode) {
-        this(errorCode.toString(), errorCode);
+        this(errorCode, errorCode.toString());
     }
 
-    public SystemRuntimeException(String message, ErrorCode errorCode) {
+    public SystemRuntimeException(ErrorCode errorCode, String message) {
         super(errorCode.toString());
         this.errorCode = errorCode;
         this.message = message;
     }
 
-    public SystemRuntimeException(String message, Throwable cause, ErrorCode errorCode) {
+    public SystemRuntimeException(ErrorCode errorCode, String message, Throwable cause) {
         super(message, cause);
         this.message = message;
         this.errorCode = errorCode;
@@ -42,6 +42,12 @@ public abstract class SystemRuntimeException extends RuntimeException {
     public SystemRuntimeException(Throwable cause) {
         super(cause);
         this.errorCode = ErrorCode.getErrorFromThrowable(cause);
+        this.message = cause.toString();
+    }
+
+    public SystemRuntimeException(ErrorCode errorCode, Throwable cause) {
+        super(cause);
+        this.errorCode = errorCode;
         this.message = cause.toString();
     }
 

@@ -16,6 +16,7 @@
 
 package space.lingu.imagehosting.data.database.repository;
 
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 import space.lingu.imagehosting.data.database.ImageHostDatabase;
 import space.lingu.imagehosting.data.database.dao.UserDao;
@@ -40,6 +41,7 @@ public class UserRepository {
         return userDao.getUsernameById(id) != null;
     }
 
+    @Async
     public void save(User user) {
         insertOrUpdate(user);
     }
@@ -56,6 +58,7 @@ public class UserRepository {
         return userDao.insert(user);
     }
 
+    @Async
     public void update(User user) {
         userDao.update(user);
     }

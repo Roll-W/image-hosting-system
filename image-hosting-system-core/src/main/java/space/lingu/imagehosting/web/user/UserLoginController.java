@@ -21,7 +21,6 @@ import space.lingu.imagehosting.data.dto.MessagePackage;
 import space.lingu.imagehosting.data.dto.UserInfo;
 import space.lingu.imagehosting.service.user.UserService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import space.lingu.Todo;
 import space.lingu.imagehosting.common.ErrorCode;
@@ -34,9 +33,13 @@ import javax.servlet.http.HttpServletRequest;
 @UserApi
 @RestController
 public class UserLoginController {
+    private final UserService userService;
 
-    @RequestMapping(value = "/login",
-            method = {RequestMethod.GET, RequestMethod.PUT})
+    public UserLoginController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.PUT})
     @Todo(todo = "use Spring Security")
     public HttpResponseEntity<UserInfo> login(HttpServletRequest request,
                                               @RequestParam String username,
@@ -75,11 +78,5 @@ public class UserLoginController {
         return HttpResponseEntity.success();
     }
 
-    private UserService userService;
-
-    @Autowired
-    private void setUserService(UserService userService) {
-        this.userService = userService;
-    }
 
 }

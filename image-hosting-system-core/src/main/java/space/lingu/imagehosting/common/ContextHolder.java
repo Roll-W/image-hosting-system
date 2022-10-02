@@ -14,47 +14,26 @@
  * limitations under the License.
  */
 
-package space.lingu.imagehosting;
+package space.lingu.imagehosting.common;
 
-import space.lingu.imagehosting.data.dto.UserInfo;
-import space.lingu.imagehosting.data.entity.User;
 import space.lingu.NonNull;
+import space.lingu.Todo;
 
 /**
  * @author RollW
  */
-public class Context {
-    private UserInfo currentUser;
-
-    private Context() {
-    }
-
-    public void initial(UserInfo info) {
-        currentUser = info;
-    }
-
-    public void invalid() {
-        currentUser = null;
-    }
-
-    public void initial(User user) {
-        currentUser = user.toInfo();
-    }
-
-    public UserInfo getCurrentUser() {
-        return currentUser;
-    }
-
-    private static final ThreadLocal<Context> sLocalContext =
-            ThreadLocal.withInitial(Context::new);
+@Todo(todo = "TODO: doesn't work")
+// TODO: doesn't work
+public class ContextHolder {
+    private static final ThreadLocalContextHolder contextHolder = new ThreadLocalContextHolder();
 
     @NonNull
     public static Context requireContext() {
-        return sLocalContext.get();
+        return contextHolder.getContext();
     }
 
     public static void invalidate() {
         requireContext().invalid();
-        sLocalContext.remove();
+        contextHolder.clearContext();
     }
 }

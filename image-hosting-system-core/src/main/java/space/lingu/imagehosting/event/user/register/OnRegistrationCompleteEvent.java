@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package space.lingu.imagehosting.event.register;
+package space.lingu.imagehosting.event.user.register;
 
 import org.springframework.context.ApplicationEvent;
 import space.lingu.imagehosting.data.dto.UserInfo;

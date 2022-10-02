@@ -17,19 +17,15 @@
 package space.lingu.imagehosting.web.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import space.lingu.imagehosting.configuration.WebUrls;
 import space.lingu.imagehosting.data.dto.HttpResponseEntity;
 import space.lingu.imagehosting.data.dto.MessagePackage;
 import space.lingu.imagehosting.data.dto.UserInfo;
-import space.lingu.imagehosting.event.register.OnRegistrationCompleteEvent;
 import space.lingu.imagehosting.service.user.UserService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Locale;
 
 /**
  * @author RollW
@@ -47,37 +43,14 @@ public class UserRegisterController {
 
         MessagePackage<UserInfo> infoMessagePackage =
                 userService.registerUser(username, password, email);
-
-        if (infoMessagePackage.errorCode().getState()) {
-            OnRegistrationCompleteEvent event = new OnRegistrationCompleteEvent(
-                    infoMessagePackage.data(),
-                    Locale.getDefault(),
-                    webUrls.backendUrl());
-            eventPublisher.publishEvent(event);
-        }
         return HttpResponseEntity.create(
                 infoMessagePackage.toResponseBody()
         );
     }
 
     UserService userService;
-
-    ApplicationEventPublisher eventPublisher;
-
-    WebUrls webUrls;
-
     @Autowired
     private void setUserService(UserService userService) {
         this.userService = userService;
-    }
-
-    @Autowired
-    public void setEventPublisher(ApplicationEventPublisher eventPublisher) {
-        this.eventPublisher = eventPublisher;
-    }
-
-    @Autowired
-    public void setWebUrls(WebUrls webUrls) {
-        this.webUrls = webUrls;
     }
 }

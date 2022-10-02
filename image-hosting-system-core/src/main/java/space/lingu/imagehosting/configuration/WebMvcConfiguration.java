@@ -16,27 +16,42 @@
 
 package space.lingu.imagehosting.configuration;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * @author RollW
  */
 @Configuration
-public class WebMvcConfiguration implements WebMvcConfigurer {
-    @Override
+public class WebMvcConfiguration  {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:3090")
-                .allowedOrigins("http://127.0.0.0:3090")
+                .allowedOrigins("http://127.0.0.1:3090")
                 .allowCredentials(true)
-                .allowedMethods("*");
+                .allowedMethods("*")
+                .maxAge(3600);
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOrigin("http://localhost:3090");
+        config.addAllowedOrigin("http://127.0.0.1:3090");
+        config.addAllowedMethod("*");
+
+        config.setAllowCredentials(true);
+        config.addAllowedHeader("*");
+        config.addExposedHeader("*");
+
+        UrlBasedCorsConfigurationSource configSource =
+                new UrlBasedCorsConfigurationSource();
+        configSource.registerCorsConfiguration("/**", config);
+        return new CorsFilter(configSource);
     }
 
 }

@@ -16,11 +16,12 @@
 
 package space.lingu.imagehosting.data.database.repository;
 
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 import space.lingu.imagehosting.data.database.ImageHostDatabase;
 import space.lingu.imagehosting.data.database.dao.VerificationTokenDao;
+import space.lingu.imagehosting.data.entity.RegisterVerificationToken;
 import space.lingu.imagehosting.data.entity.User;
-import space.lingu.imagehosting.data.entity.VerificationToken;
 
 /**
  * @author RollW
@@ -33,15 +34,30 @@ public class VerificationTokenRepository {
         dao = ImageHostDatabase.getDatabase().getVerificationTokenDao();
     }
 
-    public VerificationToken findByToken(String token) {
+    public RegisterVerificationToken findByToken(String token) {
         return dao.findByToken(token);
     }
 
-    public VerificationToken findByUser(User user) {
+    public RegisterVerificationToken findByUser(User user) {
         return dao.findByUserId(user.getId());
     }
 
-    public void insert(VerificationToken verificationToken) {
+    public RegisterVerificationToken findByUser(long id) {
+        return dao.findByUserId(id);
+    }
+
+    @Async
+    public void insert(RegisterVerificationToken verificationToken) {
         dao.insert(verificationToken);
+    }
+
+    @Async
+    public void update(RegisterVerificationToken verificationToken) {
+        dao.update(verificationToken);
+    }
+
+    @Async
+    public void update(String token, boolean used) {
+        dao.update();
     }
 }

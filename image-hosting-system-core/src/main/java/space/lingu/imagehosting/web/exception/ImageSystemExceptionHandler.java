@@ -23,10 +23,13 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import space.lingu.imagehosting.common.ErrorCode;
+import space.lingu.imagehosting.common.SystemFileException;
 import space.lingu.imagehosting.common.SystemRuntimeException;
 import space.lingu.imagehosting.data.dto.HttpResponseBody;
 import space.lingu.imagehosting.data.dto.HttpResponseEntity;
 import space.lingu.light.LightRuntimeException;
+
+import java.io.IOException;
 
 /**
  * Handle {@link LightRuntimeException}
@@ -34,8 +37,8 @@ import space.lingu.light.LightRuntimeException;
  * @author RollW
  */
 @ControllerAdvice
-public class ImageExceptionHandler {
-    private final Logger logger = LoggerFactory.getLogger(ImageExceptionHandler.class);
+public class ImageSystemExceptionHandler {
+    private final Logger logger = LoggerFactory.getLogger(ImageSystemExceptionHandler.class);
 
     @ExceptionHandler(LightRuntimeException.class)
     @ResponseBody
@@ -45,6 +48,17 @@ public class ImageExceptionHandler {
                 e.getMessage(),
                 ErrorCode.getErrorFromThrowable(e),
                 e.toString())
+        );
+    }
+
+    @ExceptionHandler(SystemFileException.class)
+    @ResponseBody
+    public HttpResponseEntity<String> handle(SystemFileException e) {
+        return HttpResponseEntity.create(HttpResponseBody.failure(
+                HttpStatus.NOT_FOUND,
+                e.getMessage(),
+                e.getErrorCode(),
+                e.getMessage())
         );
     }
 
@@ -67,6 +81,18 @@ public class ImageExceptionHandler {
                 e.getMessage(),
                 ErrorCode.ERROR_NULL,
                 e.toString())
+        );
+    }
+
+    @ExceptionHandler(IOException.class)
+    @ResponseBody
+    public HttpResponseEntity<String> handle(IOException e) {
+        logger.error("Error: %s".formatted(e.toString()), e);
+        return HttpResponseEntity.create(HttpResponseBody.failure(
+                HttpStatus.SERVICE_UNAVAILABLE,
+                e.getMessage(),
+                ErrorCode.getErrorFromThrowable(e),
+                e.getMessage())
         );
     }
 

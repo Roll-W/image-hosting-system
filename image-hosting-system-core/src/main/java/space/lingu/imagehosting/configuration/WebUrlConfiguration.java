@@ -16,22 +16,14 @@
 
 package space.lingu.imagehosting.configuration;
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import space.lingu.Todo;
+import space.lingu.imagehosting.properties.WebUrlsProperties;
 
 /**
  * @author RollW
  */
 @Configuration
+@EnableConfigurationProperties(WebUrlsProperties.class)
 public class WebUrlConfiguration {
-
-    @Bean
-    @Todo(todo = "Here are not complete.")
-    public WebUrls webUrls() {
-        return new WebUrls(
-                "http://localhost:3080",
-                "http://localhost:3090"
-        );
-    }
 }

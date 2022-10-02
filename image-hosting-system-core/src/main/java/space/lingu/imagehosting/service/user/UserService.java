@@ -16,23 +16,16 @@
 
 package space.lingu.imagehosting.service.user;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
 import space.lingu.imagehosting.data.dto.MessagePackage;
 import space.lingu.imagehosting.data.dto.UserInfo;
 import space.lingu.imagehosting.data.entity.Role;
-import space.lingu.imagehosting.data.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author RollW
  */
-public interface UserService extends UserDetailsService, UserVerifyService {
-    String INVALID = "INVALID";
-
-    User INVALID_USER = new User(INVALID,
-            INVALID, INVALID, Role.GUEST,
-            0, INVALID);
+public interface UserService extends UserVerifyService {
 
     MessagePackage<UserInfo> registerUser(String username, String password, String email);
 

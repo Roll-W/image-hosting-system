@@ -16,12 +16,10 @@
 
 package space.lingu.imagehosting.service.user;
 
-import space.lingu.imagehosting.data.entity.User;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import space.lingu.NonNull;
 import space.lingu.imagehosting.common.ErrorCode;
+import space.lingu.imagehosting.data.dto.UserPasswordDto;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,40 +28,20 @@ import java.util.regex.Pattern;
  * @author RollW
  */
 public class UserChecker {
-    public record UserInfoWithSalt(
-            ErrorCode code,
-            String username,
-            String password,
-            String salt
-    ) {
-    }
-
-    private static final int SALT_LENGTH = 64;
-
-    private static String getSalt() {
-        return RandomStringUtils.randomAlphanumeric(SALT_LENGTH);
-    }
-
     @NonNull
-    public static UserInfoWithSalt checkUser(User user) {
-        if (!checkUsername(user.getUsername())) {
-            return new UserInfoWithSalt(ErrorCode.ERROR_USERNAME_NON_COMPLIANCE, null, null, null);
+    public static ErrorCode checkUser(UserPasswordDto user) {
+        if (!checkUsername(user.username())) {
+            return ErrorCode.ERROR_USERNAME_NON_COMPLIANCE;
         }
-        if (!checkPassword(user.getPassword())) {
-            return new UserInfoWithSalt(ErrorCode.ERROR_PASSWORD_NON_COMPLIANCE, null, null, null);
+        if (!checkPassword(user.password())) {
+            return ErrorCode.ERROR_PASSWORD_NON_COMPLIANCE;
         }
 
-        if (!checkPassword(user.getEmail())) {
-            return new UserInfoWithSalt(ErrorCode.ERROR_EMAIL_NON_COMPLIANCE, null, null, null);
+        if (!checkEmail(user.email())) {
+            return ErrorCode.ERROR_EMAIL_NON_COMPLIANCE;
         }
-        final String salt = getSalt();
-        final String password = calcWithSalt(user.getPassword(), salt);
 
-        return new UserInfoWithSalt(ErrorCode.SUCCESS, user.getUsername(), password, salt);
-    }
-
-    public static String calcWithSalt(String password, String salt) {
-        return DigestUtils.sha256Hex(salt + password);
+        return ErrorCode.SUCCESS;
     }
 
     public static final String USERNAME_REGEX = "^[a-zA-Z]\\w{3,18}$";

@@ -64,6 +64,18 @@ public enum ErrorCode {
      */
     ERROR_TOKEN_EXPIRED("A0150"),
     /**
+     * 令牌未过期
+     */
+    ERROR_TOKEN_NOT_EXPIRED("A0151"),
+    /**
+     * 令牌不存在
+     */
+    ERROR_TOKEN_NOT_EXIST("A0152"),
+    /**
+     * 令牌已使用
+     */
+    ERROR_TOKEN_USED("A0153"),
+    /**
      * 用户不存在
      */
     ERROR_USER_NOT_EXIST("A0201"),
@@ -91,6 +103,10 @@ public enum ErrorCode {
      * 登陆状态过期
      */
     ERROR_LOGIN_EXPIRED("A0311"),
+    /**
+     * 用量上限
+     */
+    ERROR_USAGE_LIMIT("A0401"),
     /**
      * 请求次数过多
      */
@@ -256,7 +272,7 @@ public enum ErrorCode {
      * 由{@link Exception}得到{@link ErrorCode}
      *
      * @param exception {@link Exception}
-     * @return {@link ErrorCode} 枚举类
+     * @return {@link ErrorCode}
      */
     public static ErrorCode getErrorFromThrowable(Throwable exception) {
         if (exception instanceof FileNotFoundException) {

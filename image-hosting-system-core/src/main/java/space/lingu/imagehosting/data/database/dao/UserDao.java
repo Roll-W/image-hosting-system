@@ -16,7 +16,6 @@
 
 package space.lingu.imagehosting.data.database.dao;
 
-import space.lingu.Dangerous;
 import space.lingu.imagehosting.data.dto.UserInfo;
 import space.lingu.imagehosting.data.entity.User;
 import space.lingu.light.*;
@@ -32,7 +31,6 @@ public abstract class UserDao {
     public abstract void insert(User... users);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    @Dangerous(message = "Don't call this outside repository.")
     public abstract long insert(User user);// with user id
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -47,6 +45,7 @@ public abstract class UserDao {
     @Delete
     public abstract void delete(User... users);
 
+    @Transaction
     @Delete("DELETE FROM user WHERE user_id = {info.id()}")
     public abstract void delete(UserInfo info);
 

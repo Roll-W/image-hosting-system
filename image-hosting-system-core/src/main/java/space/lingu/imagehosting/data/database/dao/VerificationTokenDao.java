@@ -16,7 +16,7 @@
 
 package space.lingu.imagehosting.data.database.dao;
 
-import space.lingu.imagehosting.data.entity.VerificationToken;
+import space.lingu.imagehosting.data.entity.RegisterVerificationToken;
 import space.lingu.light.*;
 
 import java.util.List;
@@ -27,32 +27,37 @@ import java.util.List;
 @Dao
 public abstract class VerificationTokenDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insert(VerificationToken... tokens);
+    public abstract void insert(RegisterVerificationToken... tokens);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insert(VerificationToken token);// with user id
+    public abstract void insert(RegisterVerificationToken token);// with user id
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insert(List<VerificationToken> tokens);
+    public abstract void insert(List<RegisterVerificationToken> tokens);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void update(VerificationToken... tokens);
+    public abstract void update(RegisterVerificationToken... tokens);
+
+    @Transaction
+    @Delete("UPDATE verification_token_table SET verification_used = {used} WHERE verification_token = {token}")
+    public abstract void updateUsedByToken(String token, boolean used);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void update(List<VerificationToken> tokens);
+    public abstract void update(List<RegisterVerificationToken> tokens);
 
     @Delete
-    public abstract void delete(VerificationToken... tokens);
+    public abstract void delete(RegisterVerificationToken... tokens);
 
+    @Transaction
     @Delete("DELETE FROM verification_token_table WHERE verification_token = {token.token()}")
-    public abstract void delete(VerificationToken token);
+    public abstract void delete(RegisterVerificationToken token);
 
     @Delete
-    public abstract void delete(List<VerificationToken> users);
+    public abstract void delete(List<RegisterVerificationToken> users);
 
     @Query("SELECT * FROM verification_token_table WHERE verification_token = {token}")
-    public abstract VerificationToken findByToken(String token);
+    public abstract RegisterVerificationToken findByToken(String token);
 
-    @Query("SELECT * FROM verification_token_table WHERE verification_user_id = {userId}")
-    public abstract VerificationToken findByUserId(long userId);
+    @Query("SELECT * FROM verification_token_table WHERE verification_user_id = {userId} LIMIT 1")
+    public abstract RegisterVerificationToken findByUserId(long userId);
 }

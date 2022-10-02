@@ -5,7 +5,6 @@ server:
       cookie:
         name: lingu_image_hosting
 
-
 logging:
   charset:
     console: UTF-8
@@ -13,6 +12,8 @@ logging:
     space.lingu.imagehosting: debug
 
 spring:
+  application:
+    name: Lingu Image Hosting
   security:
     user:
       name: Lingu
@@ -20,5 +21,27 @@ spring:
   mail:
     host: smtp.exmail.qq.com
     port: 465
-    username: noreply@lingu.space
-    password: MentalOut_010
+    username: disable
+    password: disable
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 20MB
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+
+swagger:
+  enable: true
+  application-name: ${spring.application.name}
+  application-version: 0.3.1
+  application-description:
+  host: http://localhost:${server.port}
+
+web-url:
+  backend-url: http://localhost:${server.port}
+  frontend-url: http://localhost:3090
+
+hdfs:
+  url: hdfs://192.168.44.132:9000

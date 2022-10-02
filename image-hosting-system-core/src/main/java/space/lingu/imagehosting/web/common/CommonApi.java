@@ -14,10 +14,18 @@
  * limitations under the License.
  */
 
-package space.lingu.imagehosting.service;
+package space.lingu.imagehosting.web.common;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.lang.annotation.*;
 
 /**
  * @author RollW
  */
-public interface ImageService {
+@Documented
+@Target({ElementType.TYPE,ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+@RequestMapping("/api/common/")
+public @interface CommonApi {
 }

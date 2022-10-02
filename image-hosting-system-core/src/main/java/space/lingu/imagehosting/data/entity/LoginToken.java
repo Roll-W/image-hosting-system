@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package space.lingu.imagehosting.configuration;
+package space.lingu.imagehosting.data.entity;
 
 /**
  * @author RollW
  */
-public record WebUrls(String backendUrl,
-                      String frontendUrl) {
+public class LoginToken {
 }
