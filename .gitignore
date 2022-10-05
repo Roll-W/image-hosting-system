@@ -34,3 +34,5 @@ build/
 /.mvn/
 
 /cache/
+/api.http
+/http-client.private.env.json
