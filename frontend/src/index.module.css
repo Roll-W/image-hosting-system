@@ -1,0 +1,66 @@
+@charset "UTF-8";
+@import url('https://fonts.font.im/css?family=Muli:600,800');
+
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Muli', serif;
+}
+
+.body-container {
+    background-size: cover;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("bg.jpg") no-repeat fixed center;
+    height: 100vh;
+}
+
+.App {
+    text-align: center;
+}
+
+.App-logo {
+    height: 20vmin;
+    pointer-events: none;
+}
+
+.header {
+    background: rgba(255, 175, 189, 0.28);
+    backdrop-filter: blur(8px);
+}
+
+.light {
+    color: #f9fafb !important;
+}
+
+.footer {
+    background: rgba(255, 175, 189, 0.28);
+    backdrop-filter: blur(8px);
+}
+
+.backdrop-blur-8 {
+    background: rgba(255, 175, 189, 0.28);
+    backdrop-filter: blur(8px);
+}
+
+.text-opacity-w-50 {
+    opacity: 0.5;
+}
+
+.text-opacity-w-75 {
+    opacity: 0.75;
+}
+
+.pb-6 {
+    padding-bottom: 4rem !important;
+}
+
+.user-select-none {
+    user-select: none;
+}
+
+.top {
+    z-index: 999
+}
+
+.top-25 {
+    top: 25% !important;
+}
