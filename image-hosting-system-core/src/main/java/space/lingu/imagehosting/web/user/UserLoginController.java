@@ -16,14 +16,18 @@
 
 package space.lingu.imagehosting.web.user;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import space.lingu.imagehosting.common.ErrorCode;
 import space.lingu.imagehosting.data.dto.HttpResponseEntity;
 import space.lingu.imagehosting.data.dto.MessagePackage;
 import space.lingu.imagehosting.data.dto.UserInfo;
+import space.lingu.imagehosting.data.dto.request.UserLoginRequest;
 import space.lingu.imagehosting.service.user.UserService;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.*;
-import space.lingu.Todo;
-import space.lingu.imagehosting.common.ErrorCode;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -39,25 +43,29 @@ public class UserLoginController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.PUT})
-    @Todo(todo = "use Spring Security")
+
+    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public HttpResponseEntity<UserInfo> login(HttpServletRequest request,
-                                              @RequestParam String username,
-                                              @RequestParam String password) {
-        if (StringUtils.isEmpty(username)) {
+                                              @RequestBody UserLoginRequest userLoginRequest) {
+        if (StringUtils.isEmpty(userLoginRequest.username())) {
             return HttpResponseEntity.failure(
                     "Username cannot be empty.",
                     ErrorCode.ERROR_PARAM_MISSING);
         }
-        if (StringUtils.isEmpty(password)) {
+        if (StringUtils.isEmpty(userLoginRequest.password())) {
             return HttpResponseEntity.failure(
                     "Password cannot be empty.",
                     ErrorCode.ERROR_PARAM_MISSING);
         }
 
         MessagePackage<UserInfo> infoMessagePackage =
-                userService.loginByUsername(request, username, password);
+                userService.loginByUsername(request, userLoginRequest.username(), userLoginRequest.password());
         return HttpResponseEntity.create(infoMessagePackage.toResponseBody());
+    }
+
+    @PostMapping("/test")
+    public HttpResponseEntity<UserInfo> test(@RequestBody UserLoginRequest request) {
+        return HttpResponseEntity.success(request.toString());
     }
 
     @GetMapping("/current")
@@ -76,6 +84,14 @@ public class UserLoginController {
     public HttpResponseEntity<String> logout(HttpServletRequest request) {
         userService.logout(request);
         return HttpResponseEntity.success();
+    }
+
+
+    @GetMapping("/message")
+    public HttpResponseEntity<String> needsLoginFirst() {
+        return HttpResponseEntity.failure("need login first.",
+                ErrorCode.ERROR_USER_NOT_LOGIN,
+                "need login first");
     }
 
 

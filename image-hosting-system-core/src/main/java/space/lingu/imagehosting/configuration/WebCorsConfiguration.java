@@ -16,42 +16,58 @@
 
 package space.lingu.imagehosting.configuration;
 
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import space.lingu.imagehosting.properties.WebUrlsProperties;
 
 /**
  * @author RollW
  */
 @Configuration
-public class WebMvcConfiguration  {
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3090")
-                .allowedOrigins("http://127.0.0.1:3090")
-                .allowCredentials(true)
-                .allowedMethods("*")
-                .maxAge(3600);
+public class WebCorsConfiguration {
+    final WebUrlsProperties webUrlsProperties;
+
+    public WebCorsConfiguration(WebUrlsProperties webUrlsProperties) {
+        this.webUrlsProperties = webUrlsProperties;
     }
 
     @Bean
-    public CorsFilter corsFilter() {
+    public CorsConfiguration corsConfiguration() {
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("http://localhost:3090");
-        config.addAllowedOrigin("http://127.0.0.1:3090");
+        config.setAllowedOrigins(webUrlsProperties.getAllowedOrigins());
         config.addAllowedMethod("*");
 
         config.setAllowCredentials(true);
+        config.setMaxAge(3600L);
         config.addAllowedHeader("*");
         config.addExposedHeader("*");
+        return config;
+    }
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource configSource =
                 new UrlBasedCorsConfigurationSource();
-        configSource.registerCorsConfiguration("/**", config);
-        return new CorsFilter(configSource);
+        configSource.registerCorsConfiguration("/**", corsConfiguration());
+        return configSource;
+    }
+
+    @Bean
+    public FilterRegistrationBean<CorsFilter> corsFilter() {
+        UrlBasedCorsConfigurationSource configSource =
+                new UrlBasedCorsConfigurationSource();
+        configSource.registerCorsConfiguration("/**", corsConfiguration());
+
+        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(
+                new CorsFilter(configSource));
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return bean;
     }
 
 }

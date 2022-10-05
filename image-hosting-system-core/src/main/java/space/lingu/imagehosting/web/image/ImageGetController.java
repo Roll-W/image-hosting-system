@@ -39,9 +39,10 @@ public class ImageGetController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping(value = "/image/{id}", produces = "image/*")
-    public byte[] getImage(@PathVariable("id") String id) throws IOException {
-        byte[] bytes = imageService.getImageBytes(id);
+    @GetMapping(value = "/image/{userId}/{id}", produces = "image/*")
+    public byte[] getImage(@PathVariable("userId") Long userId,
+                           @PathVariable("id") String id) throws IOException {
+        byte[] bytes = imageService.getImageBytes(userId, id);
         if (bytes == null) {
             throw new FileNotFoundException("not found resource id: " + id);
         }

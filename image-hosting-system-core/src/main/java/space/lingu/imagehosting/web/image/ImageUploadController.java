@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import space.lingu.imagehosting.common.ErrorCode;
 import space.lingu.imagehosting.data.dto.HttpResponseEntity;
 import space.lingu.imagehosting.service.image.ImageService;
 
@@ -45,9 +46,13 @@ public class ImageUploadController {
     public HttpResponseEntity<String> uploadImage(HttpServletRequest request,
                                                   @RequestPart(name = "image") MultipartFile file)
             throws IOException {
-
-        logger.info("upload file, name:{}, size: {}",
-                file.getName(), file.getSize());
+        String contentType = file.getContentType();
+        if (contentType == null || !contentType.startsWith("image/")) {
+            return HttpResponseEntity.failure("Non-image format files or unrecognized.",
+                    ErrorCode.ERROR_FILE_UNMATCHED);
+        }
+        logger.info("upload file, name:{}, size: {}, content-type: {}",
+                file.getName(), file.getSize(), file.getContentType());
         return HttpResponseEntity.create(
                 imageService.saveImage(request, file.getBytes()).toResponseBody()
         );

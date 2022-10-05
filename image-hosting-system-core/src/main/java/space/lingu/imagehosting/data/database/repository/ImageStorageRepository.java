@@ -47,4 +47,11 @@ public class ImageStorageRepository {
     public ImageStorage getById(String id) {
         return dao.getByImageId(id);
     }
+
+    public UserUploadImageStorage getByUserAndImage(Long userId, String imageId) {
+        if (userId == null || imageId == null) {
+            return null;
+        }
+        return dao.getUploadByUserAndImageId(userId, imageId);
+    }
 }

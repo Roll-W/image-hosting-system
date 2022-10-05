@@ -20,11 +20,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import space.lingu.imagehosting.properties.WebUrlsProperties;
 import space.lingu.imagehosting.service.user.UserDetailsServiceImpl;
 
 /**
@@ -32,38 +35,65 @@ import space.lingu.imagehosting.service.user.UserDetailsServiceImpl;
  */
 @Configuration
 @EnableWebSecurity
+@EnableGlobalAuthentication
+// @EnableGlobalMethodSecurity(prePostEnabled=true)
 public class WebSecurityConfiguration {
     private final UserDetailsServiceImpl userDetailsService;
 
-    public WebSecurityConfiguration(UserDetailsServiceImpl userDetailsService) {
+    private final WebUrlsProperties urlsProperties;
+
+
+    public WebSecurityConfiguration(UserDetailsServiceImpl userDetailsService,
+                                    WebUrlsProperties urlsProperties) {
         this.userDetailsService = userDetailsService;
+        this.urlsProperties = urlsProperties;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
-        security.csrf().disable()
-                .userDetailsService(userDetailsService)
-                .authorizeRequests()
-                    .antMatchers("/anonymous*").anonymous()
-                    .antMatchers("/image/**").permitAll()
-                    .antMatchers("/api/user/register**").permitAll()
-                    .antMatchers("/api/user/login**").permitAll()
-                    .antMatchers("/api/user/logout").permitAll()
-                    .antMatchers("/api/user/admin/**").hasRole("ADMIN")
-                    .anyRequest().authenticated()
-                .and()
-                    .formLogin()
-                    .loginProcessingUrl("/api/user/login")
-                .and()
-                    .logout()
-                    .logoutUrl("/api/user/logout")
-                    .deleteCookies("lingu_image_hosting")
-                    .permitAll()
-                .and()
-                    .rememberMe()
-                    .key("Remember@ Don;t 1eAve me-");
+        security.formLogin()
+                .permitAll()
+                .loginPage(urlsProperties.getFrontendUrl() + "/login")
+                .loginProcessingUrl("/api/user/login");
+        security.logout()
+                .permitAll()
+                .logoutUrl("/api/user/logout")
+                .deleteCookies("lingu_image_hosting");
+        security.authorizeRequests()
+                .antMatchers("/api/user/login/**").permitAll()
+                .antMatchers("/api/user/login").permitAll()
+                .antMatchers("/api/user/test").permitAll()
+                .antMatchers("/anonymous*").anonymous()
+                .antMatchers("/image/**").permitAll()
+                .antMatchers("/api/user/register/**").permitAll()
+                .antMatchers("/api/common/**").permitAll()
+                .antMatchers("/api/user/message/**").permitAll()
+                .antMatchers("/api/user/logout/").permitAll()
+                .antMatchers("/api/user/admin/**").hasRole("ADMIN");
+        security
+                .userDetailsService(userDetailsService);
 
+//                .and()
+//                    .rememberMe()
+//                    .key("Remember@ Don;t 1eAve me-")
+        security
+                .csrf().disable();
+
+        security
+                .authorizeRequests()
+                .anyRequest().authenticated();
         return security.build();
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring().antMatchers("/css/**")
+                .antMatchers("/404.html")
+                .antMatchers("/500.html")
+                .antMatchers("/error.html")
+                .antMatchers("/html/**")
+                .antMatchers("/js/**")
+                .antMatchers("/api/user/login");// 特别放行
     }
 
     @Bean

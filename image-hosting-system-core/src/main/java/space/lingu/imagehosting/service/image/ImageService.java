@@ -27,5 +27,5 @@ import java.io.IOException;
 public interface ImageService {
     MessagePackage<String> saveImage(HttpServletRequest request, byte[] stream) throws IOException;
 
-    byte[] getImageBytes(String imageId) throws IOException;
+    byte[] getImageBytes(Long userId, String imageId) throws IOException;
 }

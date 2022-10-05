@@ -139,9 +139,16 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public byte[] getImageBytes(String imageId) throws IOException {
+    public byte[] getImageBytes(Long userId, String imageId) throws IOException {
+        UserUploadImageStorage userUploadImageStorage =
+                imageStorageRepository.getByUserAndImage(userId, imageId);
+        if (userUploadImageStorage == null) {
+            throw new SystemFileException(ErrorCode.ERROR_FILE_NOT_FOUND,
+                    "file not exist");
+        }
+
         ImageStorage storage =
-                imageStorageRepository.getById(imageId);
+                imageStorageRepository.getById(userUploadImageStorage.imageId());
         if (storage == null) {
             throw new SystemFileException(ErrorCode.ERROR_FILE_NOT_FOUND,
                     "file not exist");

@@ -10,6 +10,8 @@ logging:
     console: UTF-8
   level:
     space.lingu.imagehosting: debug
+    web: debug
+    org.springframework.security: debug
 
 spring:
   application:
@@ -42,6 +44,10 @@ swagger:
 web-url:
   backend-url: http://localhost:${server.port}
   frontend-url: http://localhost:3090
+  allowed-origins:
+    - http://localhost:3090
+    - http://127.0.0.1:3090
+    - http://localhost:${server.port}
 
 hdfs:
   url: hdfs://192.168.44.132:9000

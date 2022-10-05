@@ -118,7 +118,7 @@ public enum ErrorCode {
     /**
      * 上传文件类型错误
      */
-    ERROR_FILE_UNMATCHED("A0701"),
+    ERROR_FILE_UNMATCHED("A0701", HttpStatus.BAD_REQUEST.value()),
     /**
      * 文件过大
      */

@@ -19,6 +19,7 @@ package space.lingu.imagehosting.properties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -28,12 +29,15 @@ import java.util.Objects;
 public final class WebUrlsProperties {
     private final String backendUrl;
     private final String frontendUrl;
+    private final List<String> allowedOrigins;
 
     @ConstructorBinding
     public WebUrlsProperties(String backendUrl,
-                             String frontendUrl) {
+                             String frontendUrl,
+                             List<String> allowedOrigins) {
         this.backendUrl = backendUrl;
         this.frontendUrl = frontendUrl;
+        this.allowedOrigins = allowedOrigins;
     }
 
     public String getBackendUrl() {
@@ -42,6 +46,10 @@ public final class WebUrlsProperties {
 
     public String getFrontendUrl() {
         return frontendUrl;
+    }
+
+    public List<String> getAllowedOrigins() {
+        return allowedOrigins;
     }
 
     @Override

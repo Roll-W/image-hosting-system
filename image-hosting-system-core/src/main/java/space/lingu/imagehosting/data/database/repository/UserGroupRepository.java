@@ -52,7 +52,7 @@ public class UserGroupRepository {
             config = userGroupConfigDao.getGroupConfigByNameOrDefault(groupedUser.getUserGroup());
         }
         List<UserUploadImageStorage> storages =
-                imageStorageDao.getUploadedByUserId(userId);
+                imageStorageDao.getUploadsByUserId(userId);
         int mbSize = countToMb(storages);
         return new UserUsageInfo(userId, config.getName(),
                 mbSize, storages.size(),

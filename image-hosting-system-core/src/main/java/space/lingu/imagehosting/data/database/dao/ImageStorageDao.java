@@ -73,5 +73,10 @@ public abstract class ImageStorageDao {
     public abstract ImageStorage getByImageId(String id);
 
     @Query("SELECT * FROM user_upload_table WHERE user_id = {userId}")
-    public abstract List<UserUploadImageStorage> getUploadedByUserId(long userId);
+    public abstract List<UserUploadImageStorage> getUploadsByUserId(long userId);
+
+    @Query("SELECT * FROM user_upload_table WHERE user_id = {userId} AND image_id = {imageId}")
+    public abstract UserUploadImageStorage getUploadByUserAndImageId(long userId, String imageId);
+
+
 }

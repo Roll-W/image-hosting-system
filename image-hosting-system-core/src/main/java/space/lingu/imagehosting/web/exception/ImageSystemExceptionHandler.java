@@ -29,6 +29,7 @@ import space.lingu.imagehosting.data.dto.HttpResponseBody;
 import space.lingu.imagehosting.data.dto.HttpResponseEntity;
 import space.lingu.light.LightRuntimeException;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -81,6 +82,17 @@ public class ImageSystemExceptionHandler {
                 e.getMessage(),
                 ErrorCode.ERROR_NULL,
                 e.toString())
+        );
+    }
+
+    @ExceptionHandler(FileNotFoundException.class)
+    @ResponseBody
+    public HttpResponseEntity<String> handle(FileNotFoundException e) {
+        return HttpResponseEntity.create(HttpResponseBody.failure(
+                HttpStatus.NOT_FOUND,
+                "404 Not found.",
+                ErrorCode.ERROR_FILE_NOT_FOUND,
+                "404 Not found.")
         );
     }
 
