@@ -14,28 +14,18 @@
  * limitations under the License.
  */
 
-package space.lingu.imagehosting.properties;
+package space.lingu.imagehosting.configure.hadoop;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
  * @author RollW
  */
-@Component
-@ConfigurationProperties(value = "hdfs")
-public class HdfsProperties {
-    private String url;
+@AutoConfiguration
+@ConditionalOnClass(name = {"org.apache.hadoop.fs.FileSystem"})
+@EnableConfigurationProperties(HdfsProperties.class)
+public class HdfsConfigurable {
 
-    public HdfsProperties() {
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public HdfsProperties setUrl(String url) {
-        this.url = url;
-        return this;
-    }
 }

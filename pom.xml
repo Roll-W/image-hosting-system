@@ -35,6 +35,10 @@
 
     <modules>
         <module>image-hosting-system-core</module>
+        <module>image-hosting-system-file-api</module>
+        <module>image-hosting-system-hadoop</module>
+        <module>image-hosting-system-configuration</module>
+        <module>system-command</module>
     </modules>
 
     <properties>
@@ -44,12 +48,38 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <project.version>0.0.1</project.version>
-
         <hadoop.version>3.3.2</hadoop.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!--===================-->
+            <!-- Project -->
+            <!--===================-->
+            <dependency>
+                <groupId>space.lingu.image-hosting-system</groupId>
+                <artifactId>system-command</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>space.lingu.image-hosting-system</groupId>
+                <artifactId>image-hosting-system-configuration</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>space.lingu.image-hosting-system</groupId>
+                <artifactId>image-hosting-system-file-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>space.lingu.image-hosting-system</groupId>
+                <artifactId>image-hosting-system-hadoop</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
