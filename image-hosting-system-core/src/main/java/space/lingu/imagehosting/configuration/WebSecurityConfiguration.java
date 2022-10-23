@@ -24,9 +24,12 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import space.lingu.imagehosting.configuration.filter.SessionRequestFilter;
 import space.lingu.imagehosting.properties.WebUrlsProperties;
 import space.lingu.imagehosting.service.user.UserDetailsServiceImpl;
 
@@ -51,6 +54,9 @@ public class WebSecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
+        security.addFilterBefore(sessionRequestFilter(),
+                UsernamePasswordAuthenticationFilter.class);
+
         security.formLogin()
                 .permitAll()
                 .loginPage(urlsProperties.getFrontendUrl() + "/login")
@@ -78,6 +84,8 @@ public class WebSecurityConfiguration {
 //                    .key("Remember@ Don;t 1eAve me-")
         security
                 .csrf().disable();
+        security.sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
 
         security
                 .authorizeRequests()
@@ -106,4 +114,8 @@ public class WebSecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public SessionRequestFilter sessionRequestFilter() {
+        return new SessionRequestFilter();
+    }
 }

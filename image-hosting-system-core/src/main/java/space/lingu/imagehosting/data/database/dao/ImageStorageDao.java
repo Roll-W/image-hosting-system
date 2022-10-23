@@ -78,5 +78,4 @@ public abstract class ImageStorageDao {
     @Query("SELECT * FROM user_upload_table WHERE user_id = {userId} AND image_id = {imageId}")
     public abstract UserUploadImageStorage getUploadByUserAndImageId(long userId, String imageId);
 
-
 }

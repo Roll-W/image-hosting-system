@@ -18,21 +18,25 @@ package space.lingu.imagehosting.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import space.lingu.imagehosting.properties.DirectoriesProperties;
+import space.lingu.imagehosting.data.database.HikariConnectionPool;
+import space.lingu.imagehosting.data.database.ImageHostDatabase;
+import space.lingu.light.Light;
+import space.lingu.light.log.LightSlf4jLogger;
+import space.lingu.light.sql.MySQLDialectProvider;
 
 /**
  * @author RollW
  */
 @Configuration
-public class DirectoryConfiguration {
+public class DatabaseConfiguration {
 
     @Bean
-    public DirectoriesProperties configureDirectories() {
-        DirectoriesProperties properties = new DirectoriesProperties();
-        properties.setCacheDirectory("cache");
-        properties.setTempDirectory("temp");
-        properties.setHdfsDirectory("/ImageHosting/");
-
-        return properties;
+    public ImageHostDatabase imageHostDatabase() {
+        return Light.databaseBuilder(ImageHostDatabase.class,
+                        MySQLDialectProvider.class)
+                .setConnectionPool(HikariConnectionPool.class)
+                .setLogger(LightSlf4jLogger.createLogger(ImageHostDatabase.class))
+                .deleteOnConflict()
+                .build();
     }
 }

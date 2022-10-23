@@ -36,9 +36,9 @@ public class UserGroupRepository {
     private final ImageStorageDao imageStorageDao;
     private final UserGroupDao userGroupConfigDao;
 
-    public UserGroupRepository() {
-        this.imageStorageDao = ImageHostDatabase.getDatabase().getImageStorageDao();
-        this.userGroupConfigDao = ImageHostDatabase.getDatabase().getUserGroupConfigDao();
+    public UserGroupRepository(ImageHostDatabase database) {
+        this.imageStorageDao = database.getImageStorageDao();
+        this.userGroupConfigDao = database.getUserGroupConfigDao();
     }
 
 

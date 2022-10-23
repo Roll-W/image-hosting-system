@@ -33,6 +33,6 @@ public class LocalFileProvider implements ServerFileProvider {
     }
 
     public ServerFile openFile(ServerFile parent, String path) {
-        return new LocalFile(new File(path));
+        return new LocalFile(new File(parent.getPath(), path));
     }
 }

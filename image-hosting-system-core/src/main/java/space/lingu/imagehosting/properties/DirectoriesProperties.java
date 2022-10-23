@@ -24,6 +24,8 @@ public class DirectoriesProperties {
 
     private String cacheDirectory;
 
+    private String hdfsDirectory;
+
     public String getTempDirectory() {
         return tempDirectory;
     }
@@ -38,5 +40,14 @@ public class DirectoriesProperties {
 
     public void setCacheDirectory(String cacheDirectory) {
         this.cacheDirectory = cacheDirectory;
+    }
+
+    public String getHdfsDirectory() {
+        return hdfsDirectory;
+    }
+
+    public DirectoriesProperties setHdfsDirectory(String hdfsDirectory) {
+        this.hdfsDirectory = hdfsDirectory;
+        return this;
     }
 }

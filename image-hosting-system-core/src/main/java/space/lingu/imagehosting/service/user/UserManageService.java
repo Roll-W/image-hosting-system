@@ -25,10 +25,14 @@ import java.util.List;
  *
  * @author RollW
  */
-public interface UserManageService extends UserSettingService {
-    void createUserDiscardEmail(String username, String password, String email, Role role);
+public interface UserManageService {
+    void createUser(String username, String password, String email, Role role);
 
-    void createUserDiscardEmail(String username, String password, String email);
+    void createUser(String username, String password, String email, Role role, boolean discardEmail);
+
+    void createUser(String username, String password, String email);
+
+    void createUser(String username, String password, String email, boolean discardEmail);
 
     void deleteUser(long userId);
 

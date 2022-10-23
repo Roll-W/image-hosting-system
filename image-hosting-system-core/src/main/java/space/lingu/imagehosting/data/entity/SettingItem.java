@@ -16,8 +16,23 @@
 
 package space.lingu.imagehosting.data.entity;
 
+import space.lingu.NonNull;
+import space.lingu.Nullable;
+import space.lingu.light.DataColumn;
+import space.lingu.light.DataTable;
+import space.lingu.light.PrimaryKey;
+
 /**
  * @author RollW
  */
-public record SettingConf(String key, String value) {
+@DataTable(tableName = "sound_setting_table")
+public record SettingItem(
+        @NonNull
+        @PrimaryKey
+        @DataColumn(name = "key", nullable = false)
+        String key,
+
+        @Nullable
+        @DataColumn(name = "value")
+        String value) {
 }

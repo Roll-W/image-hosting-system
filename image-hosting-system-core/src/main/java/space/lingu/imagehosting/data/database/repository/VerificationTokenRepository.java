@@ -30,8 +30,8 @@ import space.lingu.imagehosting.data.entity.User;
 public class VerificationTokenRepository {
     private final VerificationTokenDao dao;
 
-    public VerificationTokenRepository() {
-        dao = ImageHostDatabase.getDatabase().getVerificationTokenDao();
+    public VerificationTokenRepository(ImageHostDatabase database) {
+        dao = database.getVerificationTokenDao();
     }
 
     public RegisterVerificationToken findByToken(String token) {

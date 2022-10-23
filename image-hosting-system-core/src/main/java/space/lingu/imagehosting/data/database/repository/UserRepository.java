@@ -29,8 +29,8 @@ import space.lingu.imagehosting.data.entity.User;
 public class UserRepository {
     private final UserDao userDao;
 
-    public UserRepository() {
-        this.userDao = ImageHostDatabase.getDatabase().getUserDao();
+    public UserRepository(ImageHostDatabase database) {
+        this.userDao = database.getUserDao();
     }
 
     public boolean isExistByEmail(String email) {

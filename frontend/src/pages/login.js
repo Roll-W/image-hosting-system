@@ -21,7 +21,7 @@ import logo from "../logo.svg"
 
 import {loginUser} from "../action/userAction";
 import {createToast} from "../action/toast";
-import data from "bootstrap/js/src/dom/data";
+import {ToastMessageContext} from "../root";
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -30,7 +30,7 @@ class LoginForm extends React.Component {
             username: "",
             password: "",
             remember: false,
-            toast: null
+            toast: ""
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -43,7 +43,8 @@ class LoginForm extends React.Component {
         const name = target.name;
 
         this.setState({
-            [name]: value}
+                [name]: value
+            }
         );
     }
 
@@ -56,8 +57,9 @@ class LoginForm extends React.Component {
                     return
                 }
                 this.setState({
-                    toast: createToast(null, res.message)
+                    toast: res.message
                 })
+                createToast("", res.message)
                 if (res.errorCode === "00000") {
 
                 }
@@ -69,7 +71,6 @@ class LoginForm extends React.Component {
     render() {
         return (
             <>
-                {this.state.toast}
                 <div className="w-25 m-auto text-center">
                     <form onSubmit={this.handleSubmit}>
                         <img className={`${styles["text-opacity-w-50"]} mb-4`} src={logo} alt="" width="72"

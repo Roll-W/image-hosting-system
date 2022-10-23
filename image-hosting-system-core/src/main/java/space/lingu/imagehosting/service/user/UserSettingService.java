@@ -18,12 +18,16 @@ package space.lingu.imagehosting.service.user;
 
 import space.lingu.imagehosting.data.dto.MessagePackage;
 import space.lingu.imagehosting.data.dto.UserInfo;
+import space.lingu.imagehosting.data.entity.PasswordResetToken;
 
 /**
  * @author RollW
  */
 public interface UserSettingService {
-    MessagePackage<UserInfo> resetPassword(long userId, String oldPassword, String newPassword);
+    MessagePackage<PasswordResetToken> createPasswordResetToken();
+
+    MessagePackage<UserInfo> resetPassword(long userId, String oldPassword, String newPassword,
+                                           PasswordResetToken token);
 
     MessagePackage<UserInfo> resetUsername(long userId, String newUsername);
 }

@@ -30,8 +30,8 @@ import space.lingu.imagehosting.data.entity.UserUploadImageStorage;
 public class ImageStorageRepository {
     private final ImageStorageDao dao;
 
-    public ImageStorageRepository() {
-        dao = ImageHostDatabase.getDatabase().getImageStorageDao();
+    public ImageStorageRepository(ImageHostDatabase database) {
+        dao = database.getImageStorageDao();
     }
 
     @Async

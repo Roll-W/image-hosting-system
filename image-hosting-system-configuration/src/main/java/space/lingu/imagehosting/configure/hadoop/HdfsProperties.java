@@ -17,22 +17,26 @@
 package space.lingu.imagehosting.configure.hadoop;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConstructorBinding;
 
 /**
  * @author RollW
  */
 @ConfigurationProperties("hdfs")
 public class HdfsProperties {
-    private final String url;
+    private String url;
 
-    @ConstructorBinding
     public HdfsProperties(String url) {
         this.url = url;
+    }
+
+    public HdfsProperties() {
     }
 
     public String getUrl() {
         return url;
     }
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

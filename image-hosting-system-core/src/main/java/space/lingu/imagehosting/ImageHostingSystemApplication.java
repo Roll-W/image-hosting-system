@@ -16,16 +16,53 @@
 
 package space.lingu.imagehosting;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import space.lingu.common.command.CommandRunner;
 import space.lingu.i18n.I18nLocaleFile;
+import space.lingu.imagehosting.service.image.ImageService;
+import space.lingu.imagehosting.service.user.UserService;
 
 @SpringBootApplication
 @I18nLocaleFile(className = "IID")
-public class ImageHostingSystemApplication {
+public class ImageHostingSystemApplication implements ApplicationRunner {
+    private final Logger logger = LoggerFactory.getLogger(ImageHostingSystemApplication.class);
+
+    private static final CommandRunner runner;
+    static {
+        runner = CommandRunner.systemCommandReader();
+        runner.showUnknownCommandInfo();
+        runner.disableDefaultExitCommand();
+        runner.showConsolePrefix("lingu> ");
+    }
+
 
     public static void main(String[] args) {
         SpringApplication.run(ImageHostingSystemApplication.class, args);
     }
 
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+//        UserCommand userCommand = new UserCommand(runner.getReader(), runner.getWriter());
+//        runner.registerCommand(userCommand);
+//        runner.start();
+    }
+
+    UserService userService;
+    ImageService imageService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Autowired
+    public void setImageService(ImageService imageService) {
+        this.imageService = imageService;
+    }
 }

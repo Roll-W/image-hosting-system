@@ -16,23 +16,29 @@
 
 package space.lingu.imagehosting.configuration;
 
+import com.github.benmanes.caffeine.cache.Caffeine;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import space.lingu.imagehosting.properties.DirectoriesProperties;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author RollW
  */
 @Configuration
-public class DirectoryConfiguration {
+public class CacheConfiguration {
+    @Bean
+    public Caffeine<Object, Object> caffeineConfig() {
+        return Caffeine.newBuilder()
+                .expireAfterWrite(60, TimeUnit.MINUTES);
+    }
 
     @Bean
-    public DirectoriesProperties configureDirectories() {
-        DirectoriesProperties properties = new DirectoriesProperties();
-        properties.setCacheDirectory("cache");
-        properties.setTempDirectory("temp");
-        properties.setHdfsDirectory("/ImageHosting/");
-
-        return properties;
+    public CacheManager cacheManager(Caffeine<Object, Object> caffeine) {
+        CaffeineCacheManager caffeineCacheManager = new CaffeineCacheManager();
+        caffeineCacheManager.setCaffeine(caffeine);
+        return caffeineCacheManager;
     }
 }

@@ -16,17 +16,11 @@
 
 package space.lingu.imagehosting.data.database;
 
-import space.lingu.imagehosting.data.database.dao.ImageStorageDao;
-import space.lingu.imagehosting.data.database.dao.UserDao;
-import space.lingu.imagehosting.data.database.dao.UserGroupDao;
-import space.lingu.imagehosting.data.database.dao.VerificationTokenDao;
+import space.lingu.imagehosting.data.database.dao.*;
 import space.lingu.imagehosting.data.entity.*;
 import space.lingu.light.Database;
-import space.lingu.light.Light;
 import space.lingu.light.LightConfiguration;
 import space.lingu.light.LightDatabase;
-import space.lingu.light.log.LightSlf4jLogger;
-import space.lingu.light.sql.MySQLDialectProvider;
 
 /**
  * @author RollW
@@ -35,6 +29,7 @@ import space.lingu.light.sql.MySQLDialectProvider;
         tables = {User.class, ImageStorage.class,
                 UserUploadImageStorage.class, RegisterVerificationToken.class,
                 UserGroupConfig.class, GroupedUser.class,
+                SettingItem.class
         },
         configuration = @LightConfiguration(key = LightConfiguration.KEY_VARCHAR_LENGTH, value = "255"))
 public abstract class ImageHostDatabase extends LightDatabase {
@@ -46,22 +41,6 @@ public abstract class ImageHostDatabase extends LightDatabase {
 
     public abstract UserGroupDao getUserGroupConfigDao();
 
-    private static volatile ImageHostDatabase DATABASE;
-
-    public static ImageHostDatabase getDatabase() {
-        if (DATABASE == null) {
-            synchronized (ImageHostDatabase.class) {
-                if (DATABASE == null) {
-                    DATABASE = Light.databaseBuilder(ImageHostDatabase.class,
-                                    MySQLDialectProvider.class)
-                            .setConnectionPool(HikariConnectionPool.class)
-                            .setLogger(LightSlf4jLogger.createLogger(ImageHostDatabase.class))
-                            .deleteOnConflict()
-                            .build();
-                }
-            }
-        }
-        return DATABASE;
-    }
+    public abstract SettingDao getSettingDao();
 
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package space.lingu.imagehosting.data.dto;
+package space.lingu.imagehosting.data.dto.request;
 
 /**
  * @author RollW
@@ -24,9 +24,15 @@ public class UserRegisterRequest {
     private String email;
 
     private String password;
-    private String repeatPassword;
+    // private String repeatPassword;
 
     public UserRegisterRequest() {
+    }
+
+    public UserRegisterRequest(String username, String password, String email) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
 
     public String getUsername() {
@@ -51,13 +57,5 @@ public class UserRegisterRequest {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getRepeatPassword() {
-        return repeatPassword;
-    }
-
-    public void setRepeatPassword(String repeatPassword) {
-        this.repeatPassword = repeatPassword;
     }
 }

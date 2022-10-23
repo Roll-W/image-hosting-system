@@ -38,7 +38,6 @@
         <module>image-hosting-system-file-api</module>
         <module>image-hosting-system-hadoop</module>
         <module>image-hosting-system-configuration</module>
-        <module>system-command</module>
     </modules>
 
     <properties>
@@ -56,12 +55,6 @@
             <!--===================-->
             <!-- Project -->
             <!--===================-->
-            <dependency>
-                <groupId>space.lingu.image-hosting-system</groupId>
-                <artifactId>system-command</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
             <dependency>
                 <groupId>space.lingu.image-hosting-system</groupId>
                 <artifactId>image-hosting-system-configuration</artifactId>
@@ -221,6 +214,13 @@
                 <artifactId>i18n-compiler</artifactId>
                 <version>0.1.0-SNAPSHOT</version>
                 <scope>provided</scope>
+            </dependency>
+
+
+            <dependency>
+                <groupId>space.lingu.hardwood</groupId>
+                <artifactId>hardwood-command</artifactId>
+                <version>0.1.0-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

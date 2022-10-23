@@ -13,6 +13,7 @@ import About from "./pages/about"
 import Home from "./pages/home";
 import {Upload} from "./pages/upload";
 import {Login} from "./pages/login";
+import {Register} from "./pages/register";
 
 const url = "http://localhost:3080"
 
@@ -43,8 +44,12 @@ const router = createBrowserRouter([
             },
             {
                 path: "register",
-                element: <Login url={url}/>
+                element: <Register url={url}/>
             },
+            {
+                path: "register/info",
+                element: <Upload />
+            }
 
         ]
     },

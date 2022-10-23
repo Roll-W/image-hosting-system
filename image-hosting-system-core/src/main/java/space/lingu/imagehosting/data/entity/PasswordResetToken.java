@@ -22,5 +22,7 @@ import space.lingu.light.DataTable;
  * @author RollW
  */
 @DataTable(tableName = "password_reset_token")
-public class PasswordResetToken {
+public record PasswordResetToken(
+        String token,
+        Long userId) {
 }

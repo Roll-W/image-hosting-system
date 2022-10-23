@@ -1,10 +1,10 @@
-import React, {Component, createRef} from "react";
+import React, {Component, createContext, createRef} from "react";
 import styles from "./index.module.css"
 import logo from './logo.svg';
 import {Link, Outlet} from "react-router-dom";
 import {Footer} from "./pages/footer";
 import {getCurrentUser} from "./action/userAction";
-import Modal from "./action/toast"
+import {AutoHideToast} from "./action/toast";
 
 class UserTitle extends Component {
     constructor(props) {
@@ -42,10 +42,82 @@ class UserTitle extends Component {
     }
 }
 
+export const ToastMessageContext = createContext({
+    setShow: (show) => {
+    },
+    show: false
+})
+
+const events = (function () {
+    let topics = {};
+    let hOP = topics.hasOwnProperty;
+
+    return {
+        subscribe: function (topic, listener) {
+            // Create the topic's object if not yet created
+            if (!hOP.call(topics, topic)) topics[topic] = [];
+
+            // Add the listener to queue
+            let index = topics[topic].push(listener) - 1;
+
+            // Provide handle back for removal of topic
+            return {
+                remove: function () {
+                    delete topics[topic][index];
+                }
+            };
+        },
+        publish: function (topic, info) {
+            // If the topic doesn't exist, or there's no listeners in queue, just leave
+            if (!hOP.call(topics, topic)) return;
+
+            // Cycle through topics queue, fire!
+            topics[topic].forEach(function (item) {
+                item(info !== undefined ? info : {});
+            });
+        }
+    };
+})();
+
+export function addMessage(message) {
+    events.publish('toast', {show: true, message: message})
+}
+
+class Body extends Component {
+    constructor(props) {
+        super(props);
+        Body.contextType = ToastMessageContext
+        this.state = {
+            show: false,
+            message: "",
+            setShow: (show) => {
+                this.setState({show: show})
+            },
+        }
+        events.subscribe('toast', res => {
+            console.log(res)
+            this.setState({
+                show: res.show,
+                message: res.message
+            })
+        })
+    }
+
+
+    render() {
+        return (
+            <ToastMessageContext.Provider value={{setShow: this.state.setShow, show: this.state.show}}>
+                <AutoHideToast show={this.state.show} message={this.state.message}/>
+            </ToastMessageContext.Provider>
+        )
+    }
+}
+
 export class Root extends Component {
     constructor(props) {
         super(props);
     }
+
 
     render() {
         return (
@@ -68,16 +140,12 @@ export class Root extends Component {
                                     <li><Link className="nav-link px-2 link-light" to={'/upload'}>Upload</Link></li>
                                 </ul>
 
-                                {/*<form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">*/}
-                                {/*    <input type="search" className="form-control" placeholder="Search..." aria-label="Search"/>*/}
-                                {/*</form>*/}
-
                                 <UserTitle/>
                             </div>
                         </div>
                     </header>
-                    <Modal></Modal>
                     <div id="detail" className="pb-6">
+                        <Body/>
                         <Outlet/>
                     </div>
                     <Footer/>

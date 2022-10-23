@@ -48,3 +48,21 @@ export async function loginUser(url, username, password, rememberMe) {
 
     return data
 }
+
+export async function registerUser(url, username, password, email) {
+    let data;
+
+    await axios.post(url + "/api/user/register", {
+        username: username,
+        password: password,
+        email: email
+    }, axios_config)
+        .then(r => {
+            data = r.data
+        })
+        .catch(error => {
+            data = error.response.data
+        })
+
+    return data
+}

@@ -65,6 +65,16 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
@@ -101,6 +111,7 @@
             <artifactId>springfox-boot-starter</artifactId>
         </dependency>
 
+        <!--benchmark-->
         <dependency>
             <groupId>org.openjdk.jmh</groupId>
             <artifactId>jmh-core</artifactId>
@@ -111,12 +122,6 @@
             <groupId>org.openjdk.jmh</groupId>
             <artifactId>jmh-generator-annprocess</artifactId>
             <scope>test</scope>
-        </dependency>
-
-
-        <dependency>
-            <groupId>space.lingu.image-hosting-system</groupId>
-            <artifactId>system-command</artifactId>
         </dependency>
 
         <dependency>
@@ -174,6 +179,10 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>space.lingu.hardwood</groupId>
+            <artifactId>hardwood-command</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

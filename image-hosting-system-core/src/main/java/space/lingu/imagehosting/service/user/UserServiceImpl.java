@@ -82,6 +82,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public MessagePackage<UserInfo> registerUser(String username, String password,
                                                  String email, Role role) {
+
         User user = userRepository.getUserByName(username);
         if (user != null) {
             return new MessagePackage<>(ErrorCode.ERROR_USER_EXISTED,
@@ -147,7 +148,8 @@ public class UserServiceImpl implements UserService {
         }
         if (verifyPassword(password, user.getPassword())) {
             Authentication authentication =
-                    new UsernamePasswordAuthenticationToken(username, password);
+                    new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities());
+
             authentication = authenticationManager.authenticate(authentication);
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
